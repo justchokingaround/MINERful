@@ -9,7 +9,6 @@ import org.apache.commons.cli.Options;
 import minerful.concept.ProcessSpecification;
 import minerful.concept.TaskCharArchive;
 import minerful.io.ConstraintsPrinter;
-import minerful.io.params.ImperativeOutputParameters;
 import minerful.io.params.OutputSpecificationParameters;
 import minerful.logparser.LogParser;
 import minerful.miner.core.MinerFulKBCore;
@@ -17,6 +16,7 @@ import minerful.miner.core.MinerFulQueryingCore;
 import minerful.miner.params.MinerFulCmdParameters;
 import minerful.miner.stats.GlobalStatsTable;
 import minerful.params.InputLogCmdParameters;
+import minerful.params.SlidingCmdParameters;
 import minerful.params.SlidingMiningCmdParameters;
 import minerful.params.SystemCmdParameters;
 import minerful.params.ViewCmdParameters;
@@ -63,10 +63,6 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
 				new OutputSpecificationParameters(
 						cmdLineOptions,
 						args);
-		ImperativeOutputParameters impOutParams =
-				new ImperativeOutputParameters(
-						cmdLineOptions,
-						args);
 		SystemCmdParameters systemParams =
 				new SystemCmdParameters(
 						cmdLineOptions,
@@ -85,6 +81,13 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
 					cmdLineOptions);
 			System.exit(1);
 		}
+		// In case 
+		if (slideParams.slidingStep == SlidingCmdParameters.DEFAULT_SLIDING_STEP && inputParams.subLogLength == InputLogCmdParameters.WHOLE_LOG_LENGTH) {
+			MessagePrinter.printlnError("A sliding window step was provided (" + slideParams.slidingStep + 
+					") but the number of traces to be analysed in the sub-log was not given. "
+					+ "Please provide a value for both.");
+			System.exit(1);
+		}
 
 		MessagePrinter.configureLogging(systemParams.debugLevel);
 
@@ -96,11 +99,11 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
 		TaskCharArchive taskCharArchive = logParser.getTaskCharArchive();
 
 		MinerFulOutputManagementLauncher minerFulOutputMgr = new MinerFulOutputManagementLauncher();
-		
-		ProcessSpecification processSpecification = minerMinaSlider.slideAndMine(logParser, slideParams, inputParams, minerFulParams, postParams, taskCharArchive, minerFulOutputMgr, viewParams, outParams, impOutParams, systemParams);
+
+		ProcessSpecification processSpecification = minerMinaSlider.slideAndMine(logParser, slideParams, inputParams, minerFulParams, postParams, taskCharArchive, minerFulOutputMgr, viewParams, outParams, systemParams);
 	}
 
-	public ProcessSpecification slideAndMine(LogParser logParser, SlidingMiningCmdParameters slideParams, InputLogCmdParameters inputParams, MinerFulCmdParameters minerFulParams, PostProcessingCmdParameters postParams, TaskCharArchive taskCharArchive, MinerFulOutputManagementLauncher minerFulOutputMgr, ViewCmdParameters viewParams, OutputSpecificationParameters outParams, ImperativeOutputParameters impOutParams, SystemCmdParameters systemParams) {
+	public ProcessSpecification slideAndMine(LogParser logParser, SlidingMiningCmdParameters slideParams, InputLogCmdParameters inputParams, MinerFulCmdParameters minerFulParams, PostProcessingCmdParameters postParams, TaskCharArchive taskCharArchive, MinerFulOutputManagementLauncher minerFulOutputMgr, ViewCmdParameters viewParams, OutputSpecificationParameters outParams, SystemCmdParameters systemParams) {
 		PostProcessingCmdParameters noPostProcParams = PostProcessingCmdParameters.makeParametersForNoPostProcessing();
 		ProcessSpecification proSpec = null;
 		int from = 0, to = 0;
@@ -110,9 +113,9 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
 		
 		GlobalStatsTable
 			statsTable = new GlobalStatsTable(taskCharArchive, minerFulParams.branchingLimit),
-			globalStatsTable = null;
+			fullLogStatsTable = null;
 		if (!slideParams.stickTail) {
-			globalStatsTable = new GlobalStatsTable(taskCharArchive, minerFulParams.branchingLimit);
+			fullLogStatsTable = new GlobalStatsTable(taskCharArchive, minerFulParams.branchingLimit);
 		}
 		
 		LogParser slicedLogParser = logParser.takeASlice(inputParams.startFromTrace, inputParams.subLogLength);
@@ -120,7 +123,7 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
 		statsTable = computeKB(slicedLogParser, minerFulParams,
 				taskCharArchive, statsTable);
 		if (!slideParams.stickTail) {
-			globalStatsTable.mergeAdditively(statsTable);
+			fullLogStatsTable.mergeAdditively(statsTable);
 		}
 
 		proSpec.bag = queryForConstraints(slicedLogParser, minerFulParams,
@@ -151,7 +154,7 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
     							from + ";" + to + ";'",";;'"));
     					// The last one is to avoid, e.g., “0;297;'Support';'Confidence'” in the header
 		minerFulOutputMgr.setAdditionalFileSuffix(String.format("-%06d-%06d", from, to));
-		minerFulOutputMgr.manageOutput(proSpec, viewParams, outParams, impOutParams, systemParams, logParser);
+		minerFulOutputMgr.manageOutput(proSpec, viewParams, outParams, null, systemParams, logParser);
 
 		if (slideParams.slidingStep > 0) {   		
     		//
@@ -182,8 +185,10 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
 					kbCore.setLogParser(slicedLogParser);
 	
 					slicedStatsTable = kbCore.discover();
+					
 					// subtract the tail
 					statsTable.mergeSubtractively(slicedStatsTable);
+
 				}
 				slicedLogParser = logParser.takeASlice(inputParams.startFromTrace + i + addiStartGap, addiLen);
 				kbCore.setLogParser(slicedLogParser);
@@ -193,7 +198,7 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
 				// add the head
 				statsTable.mergeAdditively(slicedStatsTable);
 				if (!slideParams.stickTail) {
-					globalStatsTable.mergeAdditively(slicedStatsTable);
+					fullLogStatsTable.mergeAdditively(slicedStatsTable);
 				}
 				
 				// wipe out existing constraints
@@ -212,12 +217,12 @@ public class MinerFulMinerSlider extends MinerFulMinerStarter {
 				);
 				
 				minerFulOutputMgr.setAdditionalFileSuffix(String.format("-%06d-%06d", from, to));
-				minerFulOutputMgr.manageOutput(proSpec, viewParams, outParams, impOutParams, systemParams, logParser);
+				minerFulOutputMgr.manageOutput(proSpec, viewParams, outParams, null, systemParams, logParser);
 			}
 			
 			if (!slideParams.stickTail) {
 				proSpec.bag.wipeOutConstraints();
-				qCore.setStatsTable(globalStatsTable);
+				qCore.setStatsTable(fullLogStatsTable);
 				qCore.discover();
 			}
     	}

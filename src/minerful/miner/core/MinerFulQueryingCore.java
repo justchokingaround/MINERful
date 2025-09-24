@@ -97,6 +97,10 @@ public class MinerFulQueryingCore implements Callable<ConstraintsBag> {
 		this.statsTable = statsTable;
 	}
 
+        public GlobalStatsTable getStatsTable() {
+		return this.statsTable;
+	}
+
 	public ConstraintsBag discover() {
         long
 	    	possibleNumberOfConstraints = 0L,

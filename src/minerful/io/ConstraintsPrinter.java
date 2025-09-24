@@ -37,8 +37,12 @@ import minerful.io.encdec.nusmv.NuSMVEncoder;
 import minerful.logparser.LogParser;
 import minerful.miner.ProbabilisticRelationConstraintsMiner.ConstraintMeasures;
 import minerful.miner.stats.GlobalStatsTable;
+//import minerful.prombridge.DfgConverter;
 import dk.brics.automaton.Automaton;
 import minerful.io.encdec.GlobalStatsTableEncoderDecoder;
+
+
+
 
 public class ConstraintsPrinter {
 	private static final String MACHINE_READABLE_RESULTS_SUPPORT_TEXT_SIGNAL = "Measures: ";
@@ -378,7 +382,7 @@ public class ConstraintsPrinter {
 		if (this.processDFG == null)
 		dfGraphBuilder = new DirectlyFollowsGraphBuilder(globalStatsTable, this.processSpecification.bag.getTaskChars());
 		processDFG = dfGraphBuilder.build();
-
+		
 		return new DirectlyFollowsGraphDotPrinter().getDotRepresentation(processDFG);
 	}
 

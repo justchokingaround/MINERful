@@ -49,7 +49,11 @@ public class SlidingCmdParameters extends ParamsManager {
         	throw new IllegalArgumentException("The sliding window step should be an integer higher than, or equal to, 0");
         }
 
-        this.stickTail = line.hasOption(STICK_TAIL_PARAM_NAME);
+        this.stickTail = 
+        		Boolean.valueOf(line.getOptionValue(
+        				STICK_TAIL_PARAM_NAME,
+						this.stickTail.toString())
+				);
 	}
 	
 	@SuppressWarnings("static-access")
@@ -59,14 +63,19 @@ public class SlidingCmdParameters extends ParamsManager {
         		Option.builder(SLIDING_STEP_PARAM_NAME)
 						.hasArg().argName("num")
 						.longOpt("slide-by")
-						.desc("sliding window step, in number of traces (must be higher than 0)" + printDefault(DEFAULT_SLIDING_STEP))
+						.desc("sliding window step, in number of traces (must be higher than 0). "
+								+ "Make sure to specify the number of traces to be analysed in the sub-log with the"
+								+ " -" + InputLogCmdParameters.SUB_LOG_SIZE_PARAM_NAME + " parameter" 
+								+ printDefault(DEFAULT_SLIDING_STEP))
 						.type(Integer.class)
 						.build()
         		);
         options.addOption(
         		Option.builder(STICK_TAIL_PARAM_NAME)
+        				.hasArg().argName("true|false")
 						.longOpt("stick-tail")
 						.desc("block the tail and slide only the head (increasing the window length at every step)" + printDefault(DEFAULT_STICKY_TAIL_POLICY))
+						.type(Boolean.class)
 						.build()
         		);
        return options;

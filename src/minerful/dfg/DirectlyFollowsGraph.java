@@ -36,6 +36,16 @@ public class DirectlyFollowsGraph {
         this.totalOccurrences += occurrences;
     }
 
+    public ActNode getNodeByName(String name) {
+        for (ActNode node : nodes.values()) {
+            if (node.getName().equals(name)) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+
 
     public static class ActNode {
         private final String name;
