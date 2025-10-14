@@ -163,6 +163,34 @@ public class MinerFulOutputManagementLauncher {
 			}
         }
 
+		if (impOutParams.fileToSaveDotFileForProcessTree != null) {
+			outputFile = this.retrieveFile(impOutParams.fileToSaveDotFileForProcessTree);
+        	try {
+				outWriter = new PrintWriter(outputFile);
+	        	outWriter.print(printer.printDotProcessTree());
+	        	outWriter.flush();
+	        	outWriter.close();
+	        	MessagePrinter.printlnOut("Discovered process tree written in DOT format on " + outputFile);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+		
+		if (impOutParams.fileToSaveDotFileForAcceptingPetriNet != null) {
+			outputFile = this.retrieveFile(impOutParams.fileToSaveDotFileForAcceptingPetriNet);
+        	try {
+				outWriter = new PrintWriter(outputFile);
+	        	outWriter.print(printer.printDotPetriNet());
+	        	outWriter.flush();
+	        	outWriter.close();
+	        	MessagePrinter.printlnOut("Discovered process accepting Petri Net written in DOT format on " + outputFile);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+
 		if (impOutParams.fileToSaveTxtFileForFootprintMatrices != null) {
 			outputFile = this.retrieveFile(impOutParams.fileToSaveTxtFileForFootprintMatrices);
         	try {

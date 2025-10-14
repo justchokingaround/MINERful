@@ -11,6 +11,15 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+
+import org.processmining.acceptingpetrinet.models.AcceptingPetriNet;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2AcceptingPetriNet;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2HumanReadableString;
+
 import minerful.automaton.AutomatonFactory;
 import minerful.automaton.SubAutomaton;
 import minerful.automaton.concept.weight.WeightedAutomaton;
@@ -25,6 +34,7 @@ import minerful.concept.constraint.ConstraintMeasuresManager;
 import minerful.concept.constraint.ConstraintsBag;
 import minerful.dfg.DirectlyFollowsGraph;
 import minerful.dfg.DirectlyFollowsGraphBuilder;
+import minerful.dfg.encdec.DfgExporter;
 import minerful.dfg.encdec.DirectlyFollowsGraphDotPrinter;
 import minerful.footprint.FootprintMatrix;
 import minerful.footprint.FootprintMatrixBuilder;
@@ -37,6 +47,7 @@ import minerful.io.encdec.nusmv.NuSMVEncoder;
 import minerful.logparser.LogParser;
 import minerful.miner.ProbabilisticRelationConstraintsMiner.ConstraintMeasures;
 import minerful.miner.stats.GlobalStatsTable;
+import minerful.prombridge.RunInductiveMinerDirectlyFollows;
 //import minerful.prombridge.DfgConverter;
 import dk.brics.automaton.Automaton;
 import minerful.io.encdec.GlobalStatsTableEncoderDecoder;
@@ -61,6 +72,8 @@ public class ConstraintsPrinter {
 	private DirectlyFollowsGraph processDFG;
 	private DirectlyFollowsGraphBuilder dfGraphBuilder;
 	private FootprintMatrix processFootprintMatrix;
+	private AcceptingPetriNet acceptingPetriNet;
+	private EfficientTree tree;
 	private FootprintMatrixBuilder footprintMatrixBuilder;
 	private NavigableMap<Constraint, String> additionalCnsIndexedInfo;
 
@@ -385,6 +398,75 @@ public class ConstraintsPrinter {
 		
 		return new DirectlyFollowsGraphDotPrinter().getDotRepresentation(processDFG);
 	}
+	
+	public String printDotPetriNet() {
+    if (this.processDFG == null) {
+        dfGraphBuilder = new DirectlyFollowsGraphBuilder(globalStatsTable, this.processSpecification.bag.getTaskChars());
+        processDFG = dfGraphBuilder.build();
+    }
+
+    try {
+        String dfgContent = DfgExporter.exportToDfg(processDFG);
+
+        //create temporary file (for mineFromDfg compatibility)
+        Path tempFile = Files.createTempFile("temp_dfg_", ".dfg");
+        Files.writeString(tempFile, dfgContent);
+
+        RunInductiveMinerDirectlyFollows.Variant algorithm = RunInductiveMinerDirectlyFollows.Variant.imd;
+		if(this.tree == null){
+        	this.tree = RunInductiveMinerDirectlyFollows.mineFromDfg(algorithm, tempFile.toFile());
+		}
+
+        //delete temp files
+        Files.deleteIfExists(tempFile);
+
+        
+        this.acceptingPetriNet = EfficientTree2AcceptingPetriNet.convert(this.tree);
+
+
+    } catch (IOException e) {
+        System.err.println("Error writing the DFG file:");
+        e.printStackTrace();
+    } catch (Exception e) {
+        System.err.println("Error during Inductive Miner processing:");
+        e.printStackTrace();
+    }
+
+    return RunInductiveMinerDirectlyFollows.exportapnToDot(acceptingPetriNet); 
+}
+
+	public String printDotProcessTree() {
+    if (this.processDFG == null) {
+        dfGraphBuilder = new DirectlyFollowsGraphBuilder(globalStatsTable, this.processSpecification.bag.getTaskChars());
+        processDFG = dfGraphBuilder.build();
+    }
+
+    try {
+        String dfgContent = DfgExporter.exportToDfg(processDFG);
+
+        // Create temporary file (for mineFromDfg compatibility)
+        Path tempFile = Files.createTempFile("temp_dfg_", ".dfg");
+        Files.writeString(tempFile, dfgContent);
+
+        RunInductiveMinerDirectlyFollows.Variant algorithm = RunInductiveMinerDirectlyFollows.Variant.imd;
+		
+		if(this.tree == null){
+        	this.tree = RunInductiveMinerDirectlyFollows.mineFromDfg(algorithm, tempFile.toFile());
+		}
+        // Delete temp file
+        Files.deleteIfExists(tempFile);
+
+        
+    } catch (IOException e) {
+        System.err.println("Error writing the DFG file:");
+        e.printStackTrace();
+    } catch (Exception e) {
+        System.err.println("Error during Inductive Miner processing:");
+        e.printStackTrace();
+    }
+
+    return RunInductiveMinerDirectlyFollows.exportTreeToDot(tree);
+}
 
 	public String printFootprintMatrixes(Integer k) {
     if (this.processFootprintMatrix == null) {

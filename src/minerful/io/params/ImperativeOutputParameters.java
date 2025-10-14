@@ -11,6 +11,8 @@ import minerful.params.ParamsManager;
 public class ImperativeOutputParameters extends ParamsManager{
     public static final String SAVE_PROCESS_DOT_AUTOMATON_PARAM_NAME = "autoDOT";
     public static final String SAVE_PROCESS_DOT_DFG_PARAM_NAME = "dfgDOT";
+    public static final String SAVE_PROCESS_DOT_ACCEPTINGPETRINET_PARAM_NAME = "apnDOT";
+    public static final String SAVE_PROCESS_DOT_PROCESSTREE_PARAM_NAME = "processtreeDOT";
     public static final String SAVE_PROCESS_TXT_FOOTPRINT_PARAM_NAME = "footprintTXT";
     // public static final String SAVE_PROCESS_CONDENSED_DOT_AUTOMATON_PARAM_NAME = "dotCond"; // TODO
     public static final String SAVE_PROCESS_TSML_AUTOMATON_PARAM_NAME = "autoTSML";
@@ -20,6 +22,8 @@ public class ImperativeOutputParameters extends ParamsManager{
     // Public fields for file outputs
     public File fileToSaveDotFileForAutomaton;
     public File fileToSaveDotFileForDFG;
+    public File fileToSaveDotFileForAcceptingPetriNet;
+    public File fileToSaveDotFileForProcessTree;
     public File fileToSaveTxtFileForFootprintMatrices;
     public File fileToSaveTsmlFileForAutomaton;
     public File folderToSaveDotFilesForPartialAutomata;
@@ -31,6 +35,8 @@ public class ImperativeOutputParameters extends ParamsManager{
    
     	this.fileToSaveDotFileForAutomaton = null;
     	this.fileToSaveDotFileForDFG = null;
+        this.fileToSaveDotFileForAcceptingPetriNet = null;
+        this.fileToSaveDotFileForProcessTree = null;
     	this.fileToSaveTxtFileForFootprintMatrices = null;
     	this.fileToSaveTsmlFileForAutomaton = null;
         this.folderToSaveDotFilesForPartialAutomata = null;
@@ -49,6 +55,8 @@ public class ImperativeOutputParameters extends ParamsManager{
     public void setup(CommandLine line) {
         this.fileToSaveDotFileForAutomaton = openOutputFile(line, SAVE_PROCESS_DOT_AUTOMATON_PARAM_NAME);
         this.fileToSaveDotFileForDFG = openOutputFile(line, SAVE_PROCESS_DOT_DFG_PARAM_NAME);
+        this.fileToSaveDotFileForAcceptingPetriNet = openOutputFile(line, SAVE_PROCESS_DOT_ACCEPTINGPETRINET_PARAM_NAME);
+        this.fileToSaveDotFileForProcessTree = openOutputFile(line, SAVE_PROCESS_DOT_PROCESSTREE_PARAM_NAME);
         this.fileToSaveTxtFileForFootprintMatrices = openOutputFile(line, SAVE_PROCESS_TXT_FOOTPRINT_PARAM_NAME);
         this.fileToSaveTsmlFileForAutomaton = openOutputFile(line, SAVE_PROCESS_TSML_AUTOMATON_PARAM_NAME);
         this.folderToSaveDotFilesForPartialAutomata = openOutputDir(line, FOLDER_FOR_SAVING_DOT_SUBAUTOMATA_PARAM_NAME);
@@ -93,6 +101,22 @@ public class ImperativeOutputParameters extends ParamsManager{
                         .hasArg().argName("path")
                         .longOpt("save-dfg-dot")
                         .desc("write a Graphviz DOT format of a directly follows graph")
+                        .type(String.class)
+                        .build()
+        );
+        options.addOption(
+                Option.builder(SAVE_PROCESS_DOT_ACCEPTINGPETRINET_PARAM_NAME)
+                        .hasArg().argName("path")
+                        .longOpt("save-acceptingpetrinet-dot")
+                        .desc("write a Graphviz DOT format of a accepting petri net")
+                        .type(String.class)
+                        .build()
+        );
+         options.addOption(
+                Option.builder(SAVE_PROCESS_DOT_PROCESSTREE_PARAM_NAME)
+                        .hasArg().argName("path")
+                        .longOpt("save-processtree-dot")
+                        .desc("write a Graphviz DOT format of a process tree")
                         .type(String.class)
                         .build()
         );
