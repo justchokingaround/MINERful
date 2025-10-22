@@ -16,8 +16,8 @@ Selected publications and presentation material about MINERful follow.
   - The latest publication specifically focussed on the tool:
   
     Cecilia Iacometta, Claudio Di Ciccio: Declarative Process Mining with MINERful, Reloaded. BPM Demos & Resources: 328-335 (2025)
-    - URL: [https://ceur-ws.org/Vol-4032/paper-43.pdf](https://ceur-ws.org/Vol-4032/paper-43.pdf) (open access!)
-    - Video: [https://youtu.be/a6jEWdgS_yY](https://youtu.be/a6jEWdgS_yY)
+    - URL: [ceur-ws.org/Vol-4032/paper-43.pdf](https://ceur-ws.org/Vol-4032/paper-43.pdf) (open access!)
+    - Video: [youtu.be/a6jEWdgS_yY](https://youtu.be/a6jEWdgS_yY)
     
   - About declarative specifications:
   
