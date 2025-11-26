@@ -247,6 +247,7 @@ private static String operatorSymbol(String label) {
         case "concurrent": return "∧";
         case "and": return "∧";
         case "loop": return "⟳";
+        case "tau": return "τ";
         default: return label;
     }
 }
