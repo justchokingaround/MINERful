@@ -12,18 +12,25 @@ A video demonstration of MINERful can be watched at [youtu.be/a6jEWdgS_yY](https
 
 Publications and further material
 ------------
-Selected publications about MINERful and presentation slides:
+Selected publications and presentation material about MINERful follow.
+  - The latest publication specifically focussed on the tool:
+  
+    Cecilia Iacometta, Claudio Di Ciccio: Declarative Process Mining with MINERful, Reloaded. BPM Demos & Resources: 328-335 (2025)
+    - URL: [ceur-ws.org/Vol-4032/paper-43.pdf](https://ceur-ws.org/Vol-4032/paper-43.pdf) (open access!)
+    - Presentation: [slideshare.net/slideshow/declarative-process-mining-with-minerful-reloaded/283806238](https://www.slideshare.net/slideshow/declarative-process-mining-with-minerful-reloaded/283806238)
+    - Video: [youtu.be/a6jEWdgS_yY](https://youtu.be/a6jEWdgS_yY)
+    
   - About declarative specifications:
   
     Claudio Di Ciccio, Marco Montali: Declarative Process Specifications: Reasoning, Discovery, Monitoring. Process Mining Handbook: 108-152 (2022)
     - DOI: [10.1007/978-3-031-08848-3_4](https://doi.org/10.1007/978-3-031-08848-3_4) (open access!)
-    - Presentation: [https://drive.google.com/uc?export=download&id=1jdla84hdV7m04QGTD6_NTgZ1E_V5fW2L](https://drive.google.com/uc?export=download&id=1jdla84hdV7m04QGTD6_NTgZ1E_V5fW2L)
+    - Presentation: [drive.google.com/uc?export=download&id=1jdla84hdV7m04QGTD6_NTgZ1E_V5fW2L](https://drive.google.com/uc?export=download&id=1jdla84hdV7m04QGTD6_NTgZ1E_V5fW2L)
     
   - The main discovery algorithm:
   
     Claudio Di Ciccio, Massimo Mecella: On the Discovery of Declarative Control Flows for Artful Processes. ACM Trans. Management Inf. Syst. 5(4): 24:1-24:37 (2015)
     - DOI: [10.1145/2629447](http://doi.acm.org/10.1145/2629447)
-    - Presentation: [https://www.slideshare.net/cdc08x/automated-discovery-of-declarative-process-models](https://www.slideshare.net/cdc08x/automated-discovery-of-declarative-process-models)
+    - Presentation: [www.slideshare.net/cdc08x/automated-discovery-of-declarative-process-models](https://www.slideshare.net/cdc08x/automated-discovery-of-declarative-process-models)
     
   - Quality measures for discovered process specifications:
   
@@ -39,13 +46,13 @@ Selected publications about MINERful and presentation slides:
   
     Claudio Di Ciccio, Fabrizio Maria Maggi, Marco Montali, Jan Mendling: Resolving inconsistencies and redundancies in declarative process models. Inf. Syst. 64: 425-446 (2017)
     - DOI: [10.1016/j.is.2016.09.005](https://doi.org/10.1016/j.is.2016.09.005)
-    - Presentation: [https://www.slideshare.net/cdc08x/resolving-inconsistencies-and-redundancies-in-declarative-process-models](https://www.slideshare.net/cdc08x/resolving-inconsistencies-and-redundancies-in-declarative-process-models)
+    - Presentation: [slideshare.net/cdc08x/resolving-inconsistencies-and-redundancies-in-declarative-process-models](https://www.slideshare.net/cdc08x/resolving-inconsistencies-and-redundancies-in-declarative-process-models)
 
   - Retaining only non-vacuously satisfied (read: relevant) constraints:
   
     Claudio Di Ciccio, Fabrizio Maria Maggi, Marco Montali, Jan Mendling: On the relevance of a business constraint to an event log. Inf. Syst. 78: 144-161 (2018)
     - DOI: [10.1016/j.is.2018.01.011](https://doi.org/10.1016/j.is.2018.01.011)
-    - Presentation: [https://www.slideshare.net/cdc08x/semantical-vacuity-detection-in-declarative-process-mining](https://www.slideshare.net/cdc08x/semantical-vacuity-detection-in-declarative-process-mining)
+    - Presentation: [slideshare.net/cdc08x/semantical-vacuity-detection-in-declarative-process-mining](https://www.slideshare.net/cdc08x/semantical-vacuity-detection-in-declarative-process-mining)
 
 
 # License
