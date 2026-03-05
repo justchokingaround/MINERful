@@ -1,4 +1,4 @@
-package minerful.io.encdec;
+package minerful.io.encdec.dto;
 
 import minerful.concept.TaskCharArchive;
 import minerful.concept.TaskCharSetFactory;

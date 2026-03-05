@@ -7,6 +7,8 @@ package minerful.concept.constraint.relation;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
+import minerful.checking.ConstraintMonitor;
+import minerful.checking.ConstraintMonitor.AnteriorPosteriorJoinOp;
 import minerful.concept.constraint.ConstraintFamily.ConstraintImplicationVerse;
 
 public class Response extends RespondedExistence {
@@ -34,7 +36,12 @@ public class Response extends RespondedExistence {
 		//return "G(%1$s -> !X(F(%2$s)))"; // G(a -> !X(F(b)))
 		return "F(%1$s & X(G(!%2$s)))"; //F(a & X(G(!b)))
 	}
-    
+
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		return new ConstraintMonitor[] {new ConstraintMonitor(this, ".*[%2$s].*", "[%1$s]", true)};
+	}	
+   
     
     protected Response() {
     	super();
@@ -79,10 +86,5 @@ public class Response extends RespondedExistence {
 	public Constraint copy(TaskCharSet... taskCharSets) {
 		super.checkParams(taskCharSets);
 		return new Response(taskCharSets[0], taskCharSets[1]);
-	}
-	
-	@Override
-	public Constraint getSymbolic() {
-		return new Response(TaskChar.SYMBOLIC_TASKCHARS[0], TaskChar.SYMBOLIC_TASKCHARS[1]);
 	}
 }

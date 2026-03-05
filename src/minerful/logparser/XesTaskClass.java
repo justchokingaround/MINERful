@@ -40,16 +40,8 @@ public class XesTaskClass extends AbstractTaskClass implements TaskClass {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		XesTaskClass other = (XesTaskClass) obj;
-		if (xEventClass == null) {
-			if (other.xEventClass != null)
-				return false;
-		} else if (!xEventClass.equals(other.xEventClass))
-			return false;
-		return true;
+		if (obj.getClass().equals(getClass()))
+			return ((XesTaskClass) obj).xEventClass.equals(xEventClass);
+		return super.equals(obj);
 	}
 }

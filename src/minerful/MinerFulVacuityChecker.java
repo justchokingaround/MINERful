@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import minerful.checking.ConstraintsFitnessEvaluator;
-import minerful.checking.ProcessSpecificationFitnessEvaluator;
+import minerful.checking.relevance.ConstraintsRelevanceEvaluator;
+import minerful.checking.relevance.ProcessSpecificationRelevanceEvaluator;
 import minerful.checking.relevance.dao.ConstraintsFitnessEvaluationsMap;
 import minerful.checking.relevance.dao.SpecificationFitnessEvaluation;
 import minerful.concept.ProcessSpecification;
@@ -106,7 +106,7 @@ public class MinerFulVacuityChecker {
 				+ "\n" +
 				"Param:    <XES-log-file-path>: the path to a XES event log file (mandatory)"
 				+ "\n" +
-				"Param:    [threshold]: the ratio of traces in which the constraints have to be non-vacuously satisfied, from 0.0 to 1.0 (default: " + ConstraintsFitnessEvaluator.DEFAULT_FITNESS_THRESHOLD + ") (optional)"
+				"Param:    [threshold]: the ratio of traces in which the constraints have to be non-vacuously satisfied, from 0.0 to 1.0 (default: " + ConstraintsRelevanceEvaluator.DEFAULT_FITNESS_THRESHOLD + ") (optional)"
 				+ "\n" +
 				"Param:    [Declare-map-output-file-path]: the path of the file in which the returned constraints are stored as a Declare Map XML file (by default, no Declare Map XML file is saved) (optional)"
 				+ "\n\n" +
@@ -133,8 +133,8 @@ public class MinerFulVacuityChecker {
 			loPar = new StringLogParser(new File(args[0]), ClassificationType.NAME);
 		}
 
-		ConstraintsFitnessEvaluator evalor = 
-				new ConstraintsFitnessEvaluator(
+		ConstraintsRelevanceEvaluator evalor = 
+				new ConstraintsRelevanceEvaluator(
 						loPar.getEventEncoderDecoder(),
 						loPar.getTaskCharArchive(),
 						Arrays.asList(parametricConstraints));

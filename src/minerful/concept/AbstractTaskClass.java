@@ -1,5 +1,6 @@
 package minerful.concept;
 
+import minerful.logparser.CharTaskClass;
 
 public class AbstractTaskClass implements TaskClass {
 	public String className;
@@ -30,8 +31,7 @@ public class AbstractTaskClass implements TaskClass {
 	public boolean equals(Object o) {
 		if (o instanceof TaskClass) {
 			return this.getName().equals(((TaskClass)o).getName());
-		}
-		else {
+		} else {
 			return false;
 		}
 	}

@@ -4,6 +4,7 @@
  */
 package minerful.concept.constraint.relation;
 
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -38,7 +39,12 @@ public class ChainPrecedence extends AlternatePrecedence {
 		return "F(%1$s & !Y(%2$s))"; //F(b & !Y(a))
 	}
 
+// (a|x)*((a|x)*b(b+|a|x))+
 
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		return new ConstraintMonitor[] {new ConstraintMonitor(this, "[^%1$s]*([^%1$s]*[%2$s]([^%1$s]+|[^%1$s]))+", "[%1$s]", true)};
+	}
 	
 	protected ChainPrecedence() {
 		super();

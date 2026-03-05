@@ -1,5 +1,8 @@
 package minerful.interestingness.test.constraint;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -8,6 +11,7 @@ import dk.brics.automaton.Transition;
 import minerful.automaton.concept.relevance.RelevanceAwareTransition;
 import minerful.automaton.concept.relevance.TransitionRelevance;
 import minerful.automaton.concept.relevance.VacuityAwareWildcardAutomaton;
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -140,5 +144,26 @@ public class SequenceResponse22 extends Constraint {
 	@Override
 	public Constraint getSymbolic() {
 		return new SequenceResponse22(TaskChar.SYMBOLIC_TASKCHARS[0], TaskChar.SYMBOLIC_TASKCHARS[1], TaskChar.SYMBOLIC_TASKCHARS[2], TaskChar.SYMBOLIC_TASKCHARS[3]);
+	}
+	
+	@Override
+	public Map<TaskChar, TaskChar> getSymbolicMap() {
+		Map<TaskChar, TaskChar> map = new HashMap<TaskChar, TaskChar>(this.getInvolvedTaskChars().size(), 
+				(float)1.0);
+		Iterator<TaskCharSet> tChSetIt = this.getParameters().iterator();
+		int i = 0;
+		while (tChSetIt.hasNext()) {
+			for (TaskChar tCh : tChSetIt.next().getTaskCharsArray()) {
+				map.put(tCh, TaskChar.SYMBOLIC_TASKCHARS[i]);
+			}
+			i++;
+		}
+		return map;
+	}
+
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

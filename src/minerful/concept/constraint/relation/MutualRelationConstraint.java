@@ -1,8 +1,6 @@
 package minerful.concept.constraint.relation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -12,6 +10,24 @@ import minerful.concept.constraint.ConstraintFamily.RelationConstraintSubFamily;
 public abstract class MutualRelationConstraint extends RelationConstraint {
 	protected RelationConstraint forwardConstraint;
 	protected RelationConstraint backwardConstraint;
+	
+	/**
+	 * Mutual relation constraints are the smallest non-trivial specifications.
+	 * They consist of a pair: the {@link #forwardConstraint forwardConstraint} and the {@link #backwardConstraint backwardConstraint}.
+	 * Therefore, their monitors are directly taken from there.
+	 */
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		ConstraintMonitor[] monitors = new ConstraintMonitor[forwardConstraint.getMonitors().length + backwardConstraint.getMonitors().length];
+		int i = 0;
+		for (ConstraintMonitor cMon : forwardConstraint.getMonitors()) {
+			monitors[i++] = cMon;
+		}
+		for (ConstraintMonitor cMon : backwardConstraint.getMonitors()) {
+			monitors[i++] = cMon;
+		}
+		return monitors;
+	}
 
 	public MutualRelationConstraint() {
 		super();
@@ -54,6 +70,16 @@ public abstract class MutualRelationConstraint extends RelationConstraint {
 	
 	public boolean hasBackwardConstraint() {
 	    return backwardConstraint != null;
+	}
+	
+	@Override
+	public TaskCharSet[] getTargets() {
+		return new TaskCharSet[] { getBase(), getImplied() };
+	}
+
+	@Override
+	public TaskCharSet[] getActivators() {
+		return new TaskCharSet[] { getImplied(), getBase() };
 	}
 
 	public void setImplyingConstraints(RelationConstraint forwardConstraint, RelationConstraint backwardConstraint) {

@@ -3,7 +3,7 @@ package minerful.logparser;
 public abstract class AbstractTraceParser implements LogTraceParser {
 
 	protected boolean parsing;
-	protected SenseOfReading senseOfReading = SenseOfReading.ONWARDS;
+	protected ReadingSense readingSense = ReadingSense.ONWARDS;
 
 	@Override
 	public boolean isParsing() {
@@ -11,13 +11,13 @@ public abstract class AbstractTraceParser implements LogTraceParser {
 	}
 
 	@Override
-	public SenseOfReading reverse() {
-		this.senseOfReading = this.senseOfReading.switchSenseOfReading();
-		return this.senseOfReading;
+	public ReadingSense reverse() {
+		this.readingSense = this.readingSense.switchSenseOfReading();
+		return this.readingSense;
 	}
 
 	@Override
-	public SenseOfReading getSenseOfReading() {
-		return senseOfReading;
+	public ReadingSense getSenseOfReading() {
+		return readingSense;
 	}
 }

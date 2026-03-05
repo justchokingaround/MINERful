@@ -24,8 +24,10 @@ import minerful.logparser.XesLogParser;
 public class AllLTLfRegExpAndAutomataPrinter {
 	public static final File OUTPUT_DIR = new File("/Users/ceciliaiacometta/Desktop/examples/re-ltlf-fsa");
 	public static final File AUTOMA_DIR = new File(OUTPUT_DIR.getPath().concat("/automata"));
-	public static final File RES_FILE = new File(OUTPUT_DIR.getPath().concat("/MINERful-discoverable-constraints--regular-expressions.json"));
-	public static final File LTLFES_FILE = new File(OUTPUT_DIR.getPath().concat("/MINERful-discoverable-constraints--LTLf-expressions.json"));
+	public static final File ALL_RES_FILE = new File(OUTPUT_DIR.getPath().concat("/MINERful-all-constraints--regular-expressions.json"));
+	public static final File ALL_LTLFES_FILE = new File(OUTPUT_DIR.getPath().concat("/MINERful-all-constraints--LTLf-expressions.json"));
+	public static final File DISCO_RES_FILE = new File(OUTPUT_DIR.getPath().concat("/MINERful-discoverable-constraints--regular-expressions.json"));
+	public static final File DISCO_LTLFES_FILE = new File(OUTPUT_DIR.getPath().concat("/MINERful-discoverable-constraints--LTLf-expressions.json"));
 	public static final File NEG_RES_FILE = new File(OUTPUT_DIR.getPath().concat("/MINERful-negative-constraints--regular-expressions.json"));
     public static final File NEG_LTLFES_FILE = new File(OUTPUT_DIR.getPath().concat("/MINERful-negative-constraints--LTLf-expressions.json"));
 	public static final TaskChar BASE = new TaskChar('a');
@@ -35,7 +37,6 @@ public class AllLTLfRegExpAndAutomataPrinter {
 	public static void main(String[] args) throws IOException {
 		// Generate all constraints that MINERful can discover taking a (base, defined above) and b (implied, as defined above)
 		Collection<Constraint> disCons = MetaConstraintUtils.getAllDiscoverableConstraints(BASE, IMPLIED);
-//		RegExp rex = new Reg
 		
 		HashMap<String, String> disCoLTLfEs = new HashMap<String, String>(disCons.size()),
 		                        disCoREs = new HashMap<String, String>(disCons.size()),
@@ -106,15 +107,15 @@ public class AllLTLfRegExpAndAutomataPrinter {
 			
 		}
 		
-		System.out.printf("Printing all regular expressions on the %s file\n", RES_FILE);
-		outWriter = new PrintWriter(RES_FILE);
+		System.out.printf("Printing all regular expressions on the %s file\n", DISCO_RES_FILE);
+		outWriter = new PrintWriter(DISCO_RES_FILE);
 		outWriter.print(gson.toJson(disCoREs));
 		outWriter.flush();
 		outWriter.close();
 		
 
-		System.out.printf("Printing all LTLf expressions on the %s file\n", LTLFES_FILE);
-		outWriter = new PrintWriter(LTLFES_FILE);
+		System.out.printf("Printing all LTLf expressions on the %s file\n", DISCO_LTLFES_FILE);
+		outWriter = new PrintWriter(DISCO_LTLFES_FILE);
 		outWriter.print(gson.toJson(disCoLTLfEs));
 		outWriter.flush();
 		outWriter.close();

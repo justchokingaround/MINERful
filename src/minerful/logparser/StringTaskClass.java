@@ -41,16 +41,8 @@ public class StringTaskClass extends AbstractTaskClass implements TaskClass {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StringTaskClass other = (StringTaskClass) obj;
-		if (className == null) {
-			if (other.className != null)
-				return false;
-		} else if (!className.equals(other.className))
-			return false;
-		return true;
+		if (obj.getClass().equals(getClass()))
+			return ((StringTaskClass) obj).className.equals(className);
+		return super.equals(obj); // This to make CharTaskClass compatible with StringTaskClass or other mono-letter task classes.
 	}
 }

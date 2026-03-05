@@ -13,9 +13,7 @@ import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
 
 import minerful.automaton.concept.relevance.VacuityAwareWildcardAutomaton;
-import minerful.checking.ConstraintsFitnessEvaluator;
 import minerful.concept.AbstractTaskClass;
-import minerful.io.encdec.TaskCharEncoderDecoder;
 import minerful.logparser.LogParser;
 import minerful.logparser.LogTraceParser;
 import minerful.utils.MessagePrinter;

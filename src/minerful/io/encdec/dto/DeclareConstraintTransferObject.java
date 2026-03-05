@@ -1,4 +1,4 @@
-package minerful.io.encdec;
+package minerful.io.encdec.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +17,7 @@ import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
 import minerful.concept.constraint.ConstraintMeasuresManager;
 import minerful.concept.constraint.MetaConstraintUtils;
+import minerful.io.encdec.StringToLowerCaseAlphanumToTemplateTranslator;
 import minerful.io.encdec.declaremap.DeclareMapEncoderDecoder;
 import minerful.io.encdec.declaremap.DeclareMapTemplate;
 import minerful.io.encdec.declaremap.DeclareMapToMinerFulTemplatesTranslator;

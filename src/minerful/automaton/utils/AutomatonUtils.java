@@ -55,6 +55,23 @@ public class AutomatonUtils {
 		return "[" + regexpLimitingTheAlphabet + "]*";
 	}
 	
+
+	public static Character[] createAlphabetArray(
+			Collection<Character> alphabet, boolean withWildcard) {
+		if (alphabet.size() < 1)
+			return new Character[] {};
+		Character[] autAlphabet = new Character[(withWildcard ? (alphabet.size() + 1) : alphabet.size())];
+		int i = 0;
+		for (Character c : alphabet) {
+			autAlphabet[i++] = c;
+		}
+		if (withWildcard) {
+			autAlphabet[i] = TaskCharEncoderDecoder.WILDCARD_CHAR;
+		}
+		return autAlphabet;
+	}
+
+	
 	public static Automaton limitRunLength(Automaton automaton, int minLen, int maxLen) {
 		RegExp regExpLimitingRunLength = new RegExp(createRegExpLimitingRunLength(minLen, maxLen));
 		return automaton.intersection(regExpLimitingRunLength.toAutomaton());

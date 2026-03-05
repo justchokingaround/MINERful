@@ -4,6 +4,7 @@
  */
 package minerful.concept.constraint.relation;
 
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -32,7 +33,6 @@ public class NotResponse extends NotChainResponse {
 		//return "G(%1$s -> X(F(%2$s)))"; // G(a -> X(F(b)))
 		return "F(%1$s & X(F(%2$s)))"; //F(a & X(F(b)))
 	}
-	
 	
 	protected NotResponse() {
 		super();

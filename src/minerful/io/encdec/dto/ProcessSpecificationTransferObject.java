@@ -1,4 +1,4 @@
-package minerful.io.encdec;
+package minerful.io.encdec.dto;
 
 import java.util.HashSet;
 import java.util.Set;

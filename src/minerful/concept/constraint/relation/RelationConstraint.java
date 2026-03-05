@@ -4,6 +4,14 @@
  */
 package minerful.concept.constraint.relation;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import minerful.automaton.AutomatonFactory;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -22,7 +30,6 @@ public abstract class RelationConstraint extends Constraint {
 	
 	protected RelationConstraint() {
 		super();
-//		implied = null;
 	}
 
     public RelationConstraint(TaskCharSet param1, TaskCharSet param2) {
@@ -251,5 +258,110 @@ public abstract class RelationConstraint extends Constraint {
 	public TaskCharSet[] getActivators() {
 		return new TaskCharSet[] { getBase() };
 	}
+	
+	/**
+	 * Returns <code>true</code> if and only if there is an overlap between TaskChars in the parameters.
+	 * @return <code>true</code> if there is an overlap between TaskChars in the parameters.
+	 * 	<code>false</code> otherwise.
+	 */
+	public boolean doActualParametersOverlap() {
+		return this.getOverlappingParameterTaskChars().size() > 0;
+	}
+	
+	/**
+	 * Returns the set of TaskChars shared between the parameters.
+	 * @return The set of TaskChars shared between the parameters. The set is empty if there is no such TaskChar.
+	 */
+	public Set<TaskChar> getOverlappingParameterTaskChars() {
+		Set<TaskChar> overlap = new TreeSet<TaskChar>();
+		TaskChar[] taskChars1 = this.getParameters().getFirst().getTaskCharsArray();
+		Set<TaskChar> taskChars2 = this.getParameters().getLast().getSetOfTaskChars();
+		for (TaskChar tCh : taskChars1) {
+			if (taskChars2.contains(tCh)) {
+				overlap.add(tCh);
+			}
+		}
+		return overlap;
+	}
 
+	/**
+	 * Notice that a separate TaskChar is to be used
+	 * 	for actual parameters that share some taskChars (e.g., 
+	 * 	Response({A,B,C}{B,C,D})
+	 *  share {B,C} among parameters, thus introducing potential nondeterminism
+	 *  if we are to run it to replay a trace on a symbolic automaton
+	 *  (when reading B in <A, B, ...>, which of the two symbols are
+	 *  considered for the transition?).
+	 * @return A map from the actual TaskChar to the symbolic TaskChar
+	 */
+	@Override
+	public Map<TaskChar, TaskChar> getSymbolicMap() {
+		Map<TaskChar, TaskChar> map = new HashMap<TaskChar, TaskChar>(this.getInvolvedTaskChars().size(), 
+				(float)1.0);
+//		Set<TaskChar> overlap = getOverlappingParameterTaskChars();
+		for (TaskChar tCh : this.getParameters().getFirst().getTaskCharsArray()) {
+//			if (!overlap.contains(tCh)) {
+				map.put(tCh, TaskChar.SYMBOLIC_TASKCHARS[0]);
+//			} else {
+//				map.put(tCh, TaskChar.SYMBOLIC_TASKCHARS[2]);
+//			}
+		}
+		for (TaskChar tCh : this.getParameters().getLast().getTaskCharsArray()) {
+//			if (!overlap.contains(tCh)) {
+				map.put(tCh, TaskChar.SYMBOLIC_TASKCHARS[1]);
+//			}
+		}
+		return map;
+	}
+	/* OLD IDEA, which does not work because it introduces a misinterpretation of parameters and formulae.
+	 * Take Response({A,B},{B}) as a clarifying example: It is totally inconsistent, yet the symbolic automaton
+	 * would make room for it.
+	 * Notice that a separate TaskChar ({@link TaskChar#SYMBOLIC_TASKCHARS TaskChar#SYMBOLIC_TASKCHARS[2]})
+	 * 	is used for actual parameters that are shared among parameters. For instance, 
+	 * 	Response({A,B,C}{B,C,D})
+	 *  shares {B,C} among parameters. In this case, {A} is mapped to 
+     *  {@link TaskChar#SYMBOLIC_TASKCHARS TaskChar#SYMBOLIC_TASKCHARS[0]},
+     *  {D} is mapped to 
+     *  {@link TaskChar#SYMBOLIC_TASKCHARS TaskChar#SYMBOLIC_TASKCHARS[1]}
+     *  and {B,C} are mapped to
+     *  {@link TaskChar#SYMBOLIC_TASKCHARS TaskChar#SYMBOLIC_TASKCHARS[2]}.
+     *  This strategy is meant to avoid introducing potential nondeterminism
+	 *  if we are to run it to replay a trace on a symbolic automaton while mapping
+	 *  a TaskChar to two symbolic characters. This would be in the case, in our example,
+	 *  when reading B in <A, B, ...>: which of the two symbols should be
+	 *  considered for the transition?
+	 */
+	
+	/**
+	 * This method uses heavy Java reflection tricks to generate constraints that
+	 *  symbolically abstracts from the actual parameter.
+	 *  For instance, given the constraint
+	 * 	Response({A,B}{C,D})
+	 *  {A,B} are mapped to 
+     *  {@link TaskChar#SYMBOLIC_TASKCHARS TaskChar#SYMBOLIC_TASKCHARS[0]},
+     *  and {C,D} are mapped to
+     *  {@link TaskChar#SYMBOLIC_TASKCHARS TaskChar#SYMBOLIC_TASKCHARS[2]}.
+	 */
+	public Constraint getSymbolic() {
+		Constraint con = null;
+		Constructor<? extends Constraint> constructor = null;
+		Class<? extends Constraint> template = null;
+		try {
+			template = getClass();
+			constructor = template.getConstructor(TaskChar.class, TaskChar.class);
+			con = constructor.newInstance(TaskChar.SYMBOLIC_TASKCHARS[0], TaskChar.SYMBOLIC_TASKCHARS[1]);
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return con;
+	}
+	
+//	public static void main(String[] params) {
+//		System.out.println(new AlternatePrecedence(new TaskChar('A'), new TaskChar('B')).getSymbolic().getRegularExpression());
+//		System.out.println(new AlternatePrecedence(new TaskChar('A'), new TaskChar('B')).getSymbolic());
+//		System.out.println(AutomatonFactory.buildAutomatonWithWildcard(new AlternatePrecedence(new TaskChar('A'), new TaskChar('B')).getSymbolic()).toDot());
+//		System.out.println(new Response(new TaskCharSet(new TaskChar('A'), new TaskChar('B')), new TaskCharSet(new TaskChar('B'))).getSymbolic());
+//		System.out.println(AutomatonFactory.buildAutomatonWithWildcard(new Response(new TaskCharSet(new TaskChar('A'), new TaskChar('B')), new TaskCharSet(new TaskChar('B'))).getSymbolic()).toDot());
+//	}
 }

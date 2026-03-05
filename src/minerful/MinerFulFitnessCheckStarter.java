@@ -32,7 +32,7 @@ public class MinerFulFitnessCheckStarter extends MinerFulMinerStarter {
 				viewOptions = ViewCmdParameters.parseableOptions(),
 				chkOptions = CheckingCmdParameters.parseableOptions(),
 				inputLogOptions = InputLogCmdParameters.parseableOptions(),
-				inpuModlOptions = InputSpecificationParameters.parseableOptions();
+				inpuSpecOptions = InputSpecificationParameters.parseableOptions();
 		
     	for (Object opt: systemOptions.getOptions()) {
     		cmdLineOptions.addOption((Option)opt);
@@ -52,7 +52,7 @@ public class MinerFulFitnessCheckStarter extends MinerFulMinerStarter {
     	for (Object opt: inputLogOptions.getOptions()) {
     		cmdLineOptions.addOption((Option)opt);
     	}
-    	for (Object opt: inpuModlOptions.getOptions()) {
+    	for (Object opt: inpuSpecOptions.getOptions()) {
     		cmdLineOptions.addOption((Option)opt);
     	}
     	
@@ -83,7 +83,7 @@ public class MinerFulFitnessCheckStarter extends MinerFulMinerStarter {
 				new InputLogCmdParameters(
 						cmdLineOptions,
 						args);
-		InputSpecificationParameters inpuModlParams =
+		InputSpecificationParameters inpuSpecParams =
 				new InputSpecificationParameters(
 						cmdLineOptions,
 						args);
@@ -98,7 +98,7 @@ public class MinerFulFitnessCheckStarter extends MinerFulMinerStarter {
         	systemParams.printHelp(cmdLineOptions);
         	System.exit(0);
         }
-        MinerFulFitnessCheckLauncher miFuCheLa = new MinerFulFitnessCheckLauncher(inpuModlParams, preProcParams, inputLogParams, chkParams, systemParams);
+        MinerFulFitnessCheckLauncher miFuCheLa = new MinerFulFitnessCheckLauncher(inpuSpecParams, preProcParams, inputLogParams, chkParams, systemParams);
         
         SpecificationFitnessEvaluation evaluationOutput = miFuCheLa.check();
         ProcessSpecification processSpecification = miFuCheLa.getProcessSpecification();

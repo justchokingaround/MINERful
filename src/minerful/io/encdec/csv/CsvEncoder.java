@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
+
 import minerful.concept.ProcessSpecification;
 import minerful.concept.TaskChar;
 import minerful.concept.constraint.Constraint;
@@ -74,10 +76,10 @@ public class CsvEncoder {
 							sottoSbuf.append("'" + c.getTemplateName() + "'");
 							break;
 						case ACTIVATION:
-							sottoSbuf.append(c.getActivators() == null? "''" : "'" + Arrays.toString(c.getActivators()) + "'");
+							sottoSbuf.append(c.getActivators() == null? "''" : "'" + StringUtils.join(c.getActivators(), ",") + "'");
 							break;
 						case TARGET:
-							sottoSbuf.append(c.getTargets() == null? "''" : "'" + Arrays.toString(c.getTargets()) + "'");
+							sottoSbuf.append(c.getTargets() == null? "''" : "'" + StringUtils.join(c.getTargets(), ",") + "'");
 							break;
 						case SUPPORT:
 							sottoSbuf.append(String.format(Locale.ENGLISH, "%.3f", c.getEventBasedMeasures().getSupport()));

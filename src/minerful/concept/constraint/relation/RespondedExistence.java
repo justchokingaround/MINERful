@@ -7,6 +7,8 @@ package minerful.concept.constraint.relation;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
+import minerful.checking.ConstraintMonitor;
+import minerful.checking.ConstraintMonitor.AnteriorPosteriorJoinOp;
 import minerful.concept.constraint.ConstraintFamily.ConstraintImplicationVerse;
 import minerful.concept.constraint.ConstraintFamily.RelationConstraintSubFamily;
 
@@ -15,7 +17,7 @@ public class RespondedExistence extends RelationConstraint {
 
     public Double expectedDistance;
     public Double confidenceIntervalMargin;
-    
+        
     @Override
 	public String getRegularExpressionTemplate() {
 		return "[^%1$s]*(([%1$s].*[%2$s].*)|([%2$s].*[%1$s].*))*[^%1$s]*";
@@ -37,6 +39,12 @@ public class RespondedExistence extends RelationConstraint {
 		return "F(%1$s & (X(G(!%2$s)) & Y(H(!%2$s))))"; //F(a & (X(G(!b)) & Y(H(!b))))
 	}
 
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		return new ConstraintMonitor[] {
+				new ConstraintMonitor(this, ".*[%2$s].*", ".*[%2$s].*", "[%1$s]", AnteriorPosteriorJoinOp.OR)
+		};
+	}	
     
     protected RespondedExistence() {
     	super();
@@ -109,10 +117,5 @@ public class RespondedExistence extends RelationConstraint {
 	public Constraint copy(TaskCharSet... taskCharSets) {
 		super.checkParams(taskCharSets);
 		return new RespondedExistence(taskCharSets[0], taskCharSets[1]);
-	}
-	
-	@Override
-	public Constraint getSymbolic() {
-		return new RespondedExistence(TaskChar.SYMBOLIC_TASKCHARS[0], TaskChar.SYMBOLIC_TASKCHARS[1]);
 	}
 }

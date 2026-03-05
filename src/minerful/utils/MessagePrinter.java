@@ -117,14 +117,23 @@ public class MessagePrinter {
 		return token.toString().trim().toLowerCase().replace("_", "-");
 	}
 
+	public static void printlnOut(String s, Object... objects) {
+		System.out.println(String.format(s, objects));
+	}
 	public static void printlnOut(String s) {
 		System.out.println(s);
 	}
 	public static void printlnOut() {
 		System.out.println();
 	}
+	public static void printOut(String s, Object... objects) {
+		System.out.print(String.format(s, objects));
+	}
 	public static void printOut(String s) {
 		System.out.print(s);
+	}
+	public static void printlnError(String s, Object... objects) {
+		System.err.println(String.format(s, objects));
 	}
 	public static void printlnError(String s) {
 		System.err.println(s);

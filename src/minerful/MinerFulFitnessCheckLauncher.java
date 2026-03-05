@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 
 import org.processmining.plugins.declareminer.visualizing.AssignmentModel;
 
-import minerful.checking.ProcessSpecificationFitnessEvaluator;
 import minerful.checking.params.CheckingCmdParameters;
+import minerful.checking.relevance.ProcessSpecificationRelevanceEvaluator;
 import minerful.checking.relevance.dao.SpecificationFitnessEvaluation;
 import minerful.concept.ProcessSpecification;
 import minerful.io.ProcessSpecificationLoader;
@@ -73,7 +73,7 @@ public class MinerFulFitnessCheckLauncher {
 	}
 	
 	public SpecificationFitnessEvaluation check() {
-		ProcessSpecificationFitnessEvaluator evalor = new ProcessSpecificationFitnessEvaluator(
+		ProcessSpecificationRelevanceEvaluator evalor = new ProcessSpecificationRelevanceEvaluator(
 				this.eventLogParser.getEventEncoderDecoder(), this.processSpecification);
 
 		SpecificationFitnessEvaluation evalon = evalor.evaluateOnLog(this.eventLogParser);
@@ -84,7 +84,7 @@ public class MinerFulFitnessCheckLauncher {
 	}
 
 	public SpecificationFitnessEvaluation check(LogTraceParser trace) {
-		ProcessSpecificationFitnessEvaluator evalor = new ProcessSpecificationFitnessEvaluator(
+		ProcessSpecificationRelevanceEvaluator evalor = new ProcessSpecificationRelevanceEvaluator(
 				this.eventLogParser.getEventEncoderDecoder(), this.processSpecification);
 		
 		SpecificationFitnessEvaluation evalon = evalor.evaluateOnTrace(trace);

@@ -39,8 +39,8 @@ import minerful.concept.TaskCharFactory;
 import minerful.concept.constraint.Constraint;
 import minerful.concept.constraint.ConstraintsBag;
 import minerful.concept.constraint.MetaConstraintUtils;
-import minerful.io.encdec.DeclareConstraintTransferObject;
-import minerful.io.encdec.TransferObjectToConstraintTranslator;
+import minerful.io.encdec.dto.DeclareConstraintTransferObject;
+import minerful.io.encdec.dto.TransferObjectToConstraintTranslator;
 import minerful.utils.ResourceReader;
 
 public class DeclareMapEncoderDecoder {

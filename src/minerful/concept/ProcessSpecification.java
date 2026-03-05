@@ -37,7 +37,7 @@ public class ProcessSpecification implements PropertyChangeListener {
 	public ConstraintsBag bag;
 	private String name;
 	private TaskCharArchive taskCharArchive;
-	public static final String MINERFUL_XMLNS = "https://github.com/cdc08x/MINERful/";
+	public static final String MINERFUL_XMLNS = "https://github.com/Process-in-Chains/MINERful/";
 
 	protected ProcessSpecification() {}
 
@@ -241,6 +241,10 @@ public class ProcessSpecification implements PropertyChangeListener {
 
 	public SortedSet<Constraint> getAllUnmarkedConstraints() {
 		return LinearConstraintsIndexFactory.getAllUnmarkedConstraints(bag);
+	}
+	
+	public int size() {
+		return this.bag.howManyConstraints();
 	}
 
 	public int howManyConstraints() {

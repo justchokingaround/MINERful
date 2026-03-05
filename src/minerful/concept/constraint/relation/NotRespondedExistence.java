@@ -4,6 +4,8 @@
  */
 package minerful.concept.constraint.relation;
 
+import minerful.checking.ConstraintMonitor;
+import minerful.checking.ConstraintMonitor.AnteriorPosteriorJoinOp;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -31,7 +33,14 @@ public class NotRespondedExistence extends NotResponse { // TODO This kind of in
 		//return "G(%1$s -> (X(F(%2$s)) | Y(O(%2$s)))"; // G(a -> (X(F(b)) | Y(O(b)))
 		return "F(%1$s & (X(F(%2$s) | Y(O(%2$s)))))"; //F(a & (X(F(b) | Y(O(b)))))
 	}
-  	
+
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		return new ConstraintMonitor[] {
+				new ConstraintMonitor(this, ".*[^%2$s].*", ".*[^%2$s].*", "[%1$s]", AnteriorPosteriorJoinOp.AND)
+		};
+	}	
+ 	
 	protected NotRespondedExistence() {
 		super();
 	}

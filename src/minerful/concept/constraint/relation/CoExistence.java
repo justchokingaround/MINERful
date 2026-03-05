@@ -4,6 +4,7 @@
  */
 package minerful.concept.constraint.relation;
 
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -31,7 +32,7 @@ public class CoExistence extends MutualRelationConstraint {
 	public String getViolatingLTLpfExpressionTemplate() {
 		return "F((%1$s & (X(G(!%2$s)) & Y(H(!%2$s)))) | (%2$s & (X(G(!%1$s)) & Y(H(!%1$s)))))"; // F((a & (X(G(!b)) & Y(H(!b)))) | (b & (X(G(!a)) & Y(H(!a)))))
 	}
-    
+	    
     protected CoExistence() {
     	super();
     }

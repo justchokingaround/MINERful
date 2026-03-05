@@ -1,4 +1,4 @@
-package minerful.checking;
+package minerful.checking.relevance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +31,8 @@ import minerful.utils.MessagePrinter;
  * Return the relevant constraints out of the log.
  * @author Claudio Di Ciccio
  */
-public class ConstraintsFitnessEvaluator {
-	private static MessagePrinter logger = MessagePrinter.getInstance(ConstraintsFitnessEvaluator.class);
+public class ConstraintsRelevanceEvaluator {
+	private static MessagePrinter logger = MessagePrinter.getInstance(ConstraintsRelevanceEvaluator.class);
 
 	public static final Double DEFAULT_FITNESS_THRESHOLD = (Double)0.5;
 	public static final Double NO_FITNESS_THRESHOLD = (Double)0.0;
@@ -52,7 +52,7 @@ public class ConstraintsFitnessEvaluator {
 	 * @param taChaEncoDeco An encoder/decoder for tasks of constraints
 	 * @param constraints Constraints to be evaluated
 	 */
-	public ConstraintsFitnessEvaluator(TaskCharEncoderDecoder taChaEncoDeco, Constraint... constraints) {
+	public ConstraintsRelevanceEvaluator(TaskCharEncoderDecoder taChaEncoDeco, Constraint... constraints) {
 		this.init(taChaEncoDeco, constraints);
 	}
 	
@@ -60,7 +60,7 @@ public class ConstraintsFitnessEvaluator {
 	 * Constructor of this class.
 	 * @param constraints Constraints to be evaluated
 	 */
-	public ConstraintsFitnessEvaluator(Constraint... constraints) {
+	public ConstraintsRelevanceEvaluator(Constraint... constraints) {
 		this.init(new TaskCharEncoderDecoder(), constraints);
 	}
 	
@@ -84,7 +84,7 @@ public class ConstraintsFitnessEvaluator {
 	 * @param tCharArchive An archive of all tasks to be checked against the given templates.
 	 * @param parametricConstraints Constraints for which permutations of tasks from <code>tCharArchive</code> will be used as actual parameters for the templates in <code>parametricConstraints</code>.
 	 */
-	public ConstraintsFitnessEvaluator(TaskCharEncoderDecoder taChaEncoDeco, TaskCharArchive tCharArchive, Collection<Constraint> parametricConstraints) {
+	public ConstraintsRelevanceEvaluator(TaskCharEncoderDecoder taChaEncoDeco, TaskCharArchive tCharArchive, Collection<Constraint> parametricConstraints) {
 		MessagePrinter.configureLogging(DebugLevel.all);
 		
 		this.checkedConstraints = new ArrayList<Constraint>();

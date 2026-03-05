@@ -3,7 +3,7 @@ package minerful.checking.integration.prom;
 import org.deckfour.xes.model.XLog;
 import org.deckfour.xes.model.XTrace;
 
-import minerful.checking.ProcessSpecificationFitnessEvaluator;
+import minerful.checking.relevance.ProcessSpecificationRelevanceEvaluator;
 import minerful.checking.relevance.dao.SpecificationFitnessEvaluation;
 import minerful.concept.ProcessSpecification;
 import minerful.logparser.LogEventClassifier.ClassificationType;
@@ -11,12 +11,12 @@ import minerful.logparser.XesLogParser;
 import minerful.logparser.XesTraceParser;
 
 public class SpecificationFitnessEvaluatorOpenXesInterface {
-	public ProcessSpecificationFitnessEvaluator evaluator;
+	public ProcessSpecificationRelevanceEvaluator evaluator;
 	private XesLogParser logParser;
 	
 	public SpecificationFitnessEvaluatorOpenXesInterface(XLog log, ClassificationType eventClassType, ProcessSpecification specification) {
 		this.logParser = new XesLogParser(log, eventClassType);
-		this.evaluator = new ProcessSpecificationFitnessEvaluator(logParser.getEventEncoderDecoder(), specification);
+		this.evaluator = new ProcessSpecificationRelevanceEvaluator(logParser.getEventEncoderDecoder(), specification);
 	}
 	
 	public SpecificationFitnessEvaluation evaluateOnLog() {

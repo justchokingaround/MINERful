@@ -1,4 +1,4 @@
-package minerful.io.encdec;
+package minerful.io.encdec.dto;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -8,6 +8,7 @@ import minerful.concept.TaskChar;
 import minerful.concept.TaskCharArchive;
 import minerful.concept.TaskCharFactory;
 import minerful.concept.constraint.ConstraintsBag;
+import minerful.io.encdec.TaskCharEncoderDecoder;
 
 public class TransferObjectToProcessSpecificationTranslator {
 	public TransferObjectToProcessSpecificationTranslator() {}

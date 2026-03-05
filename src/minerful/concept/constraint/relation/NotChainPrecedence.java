@@ -4,6 +4,7 @@
  */
 package minerful.concept.constraint.relation;
 
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -39,6 +40,11 @@ public class NotChainPrecedence extends NegativeRelationConstraint {
 		return "F(%1$s & Y(%2$s))"; //F(b & Y(a))
 	}
 
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     protected NotChainPrecedence() {
     	super();

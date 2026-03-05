@@ -9,18 +9,16 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import minerful.automaton.concept.relevance.VacuityAwareWildcardAutomaton;
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.ConstraintFamily.ConstraintSubFamily;
-import minerful.concept.constraint.existence.ExistenceConstraint;
-import minerful.concept.constraint.relation.RelationConstraint;
 import minerful.io.encdec.TaskCharEncoderDecoder;
-
-
 
 public abstract class Constraint implements Comparable<Constraint> {
     protected TaskCharSet base;
@@ -38,6 +36,7 @@ public abstract class Constraint implements Comparable<Constraint> {
 	protected ConstraintMeasuresManager trcBasedMeasures = new ConstraintMeasuresManager();
     protected Constraint constraintWhichThisIsBasedUpon;
 	protected List<TaskCharSet> parameters;
+	protected ConstraintMonitor monitor;
 
 	protected boolean silentToObservers = true;
 	
@@ -235,7 +234,7 @@ public abstract class Constraint implements Comparable<Constraint> {
 	 * @see Constraint#getRegularExpressionTemplate() getRegularExpressionTemplate()
 	 */
 	public String getRegularExpression() {
-		return String.format(this.getRegularExpressionTemplate(), this.base.toPatternString(true));
+		return String.format(this.getRegularExpressionTemplate(), this.base.toPatternString());
 	}
 
 	/**
@@ -249,7 +248,7 @@ public abstract class Constraint implements Comparable<Constraint> {
 
 	///////////////////////////// added by Ralph Angelo Almoneda ///////////////////////////////
 	public String getViolatingRegularExpression() {
-		return String.format(this.getViolatingRegularExpressionTemplate(), this.base.toPatternString(true));
+		return String.format(this.getViolatingRegularExpressionTemplate(), this.base.toPatternString());
 	}//
 
 	public String getViolatingLTLpfExpression() {
@@ -415,6 +414,7 @@ public abstract class Constraint implements Comparable<Constraint> {
 	}
 	
 	public abstract Constraint getSymbolic();
+	public abstract Map<TaskChar, TaskChar> getSymbolicMap();
 	public abstract Constraint copy(TaskChar... taskChars);
 	public abstract Constraint copy(TaskCharSet... taskCharSets);
 	public abstract boolean checkParams(TaskChar... taskChars) throws IllegalArgumentException;
@@ -459,6 +459,12 @@ public abstract class Constraint implements Comparable<Constraint> {
 	protected void setSilentToObservers(boolean silentToObservers) {
 		this.silentToObservers = silentToObservers;
 	}
+
+	public boolean hasRuntimeActivators() {
+		return this.getActivators() != null && this.getActivators().length > 0 && this.getActivators()[0].getTaskCharsArray().length > 0;
+	}
+	
+	public abstract ConstraintMonitor[] getMonitors();
 	
 	// protected void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
 	// 	if (this.getFamily().equals(ConstraintFamily.EXISTENCE)) {

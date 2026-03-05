@@ -28,7 +28,6 @@ public class AtLeast2 extends AtLeast1 {
 		return "G(%1$s -> X(G(!%1$s)))"; // G(a -> X(G(!a)))
 	}
  
- 
     protected AtLeast2() {
     	super();
     }

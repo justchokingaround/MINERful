@@ -6,6 +6,7 @@ package minerful.concept.constraint.relation;
 
 import java.util.Collections;
 
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -38,6 +39,10 @@ public class Precedence extends RespondedExistence {
 		return "F(%1$s & Y(H(!%2$s)))"; //F(b & Y(H(!a)))
 	}
 
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		return new ConstraintMonitor[] {new ConstraintMonitor(this, ".*[%2$s].*", "[%1$s]", true)};
+	}	
  
     protected Precedence() {
     	super();
@@ -93,9 +98,5 @@ public class Precedence extends RespondedExistence {
 		super.checkParams(taskCharSets);
 		return new Precedence(taskCharSets[0], taskCharSets[1]);
 	}
-	
-	@Override
-	public Constraint getSymbolic() {
-		return new Precedence(TaskChar.SYMBOLIC_TASKCHARS[0], TaskChar.SYMBOLIC_TASKCHARS[1]);
-	}
+
 }

@@ -4,6 +4,7 @@
  */
 package minerful.concept.constraint.relation;
 
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -35,6 +36,10 @@ public class AlternateResponse extends Response {
 		return "F(%1$s & X(G(!%2$s | (%1$s & !%2$s))))"; //F(a & X(G(!b | (a & !b))))
 	}
 
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		return new ConstraintMonitor[] {new ConstraintMonitor(this, "[%2$s][^%1$s]+", "[%1$s]", true)};
+	}	
  	
 	protected AlternateResponse() {
 		super();

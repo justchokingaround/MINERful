@@ -26,7 +26,6 @@ public class AtMost1 extends AtMost2 {
 	public String getViolatingLTLpfExpressionTemplate() {
 		return "F(%1$s & X(F(%1$s)))"; // F(a & X(F(a)))
 	}
-
     
 	protected AtMost1() {
     	super();

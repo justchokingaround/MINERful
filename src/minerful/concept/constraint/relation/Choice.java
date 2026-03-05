@@ -4,6 +4,7 @@
  */
 package minerful.concept.constraint.relation;
 
+import minerful.checking.ConstraintMonitor;
 import minerful.concept.TaskChar;
 import minerful.concept.TaskCharSet;
 import minerful.concept.constraint.Constraint;
@@ -32,6 +33,15 @@ public class Choice extends MutualRelationConstraint {
 	public String getViolatingLTLpfExpressionTemplate() {
 		// return "F( a | b )"; // F( a | b )
 		return "G(!([%1$s | %2$s]))"; // G(!(a | b))
+	}
+	
+	/**
+	 * Existence constraints' activator is the start or end of a trace.
+	 * Therefore, their consequent is expressed by the checking automaton's regular expression itself.
+	 */
+	@Override
+	public ConstraintMonitor[] getMonitors() {
+		return new ConstraintMonitor[] {new ConstraintMonitor(this, getRegularExpressionTemplate()) };
 	}
 
   	

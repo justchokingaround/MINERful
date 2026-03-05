@@ -40,15 +40,15 @@ public class StringTraceParser extends AbstractTraceParser implements LogTracePa
 	public boolean isParsingOver() {
 		return (
 			this.isParsing() &&
-			(this.senseOfReading.equals(SenseOfReading.BACKWARDS) && this.currentIndex <= 0)
+			(this.readingSense.equals(ReadingSense.BACKWARDS) && this.currentIndex <= 0)
 			||
-			(this.senseOfReading.equals(SenseOfReading.ONWARDS) && this.currentIndex >= this.strTrace.length() -1));
+			(this.readingSense.equals(ReadingSense.ONWARDS) && this.currentIndex >= this.strTrace.length() -1));
 	}
 
 	@Override
 	public boolean stepToSubsequent() {
 		if (!isParsingOver()) {
-			switch(this.senseOfReading) {
+			switch(this.readingSense) {
 			case ONWARDS:
 				this.currentIndex++;
 				this.strEventParser = new StringEventParser(this, this.strTrace.charAt(currentIndex));

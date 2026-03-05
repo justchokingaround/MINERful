@@ -11,7 +11,9 @@ import minerful.concept.TaskCharArchive;
 import minerful.concept.TaskChar;
 import minerful.concept.constraint.Constraint;
 import minerful.concept.constraint.MetaConstraintUtils;
-import minerful.io.encdec.json.JsonPojoEncoderDecoder;
+import minerful.io.encdec.dto.ProcessSpecificationTransferObject;
+import minerful.io.encdec.dto.TransferObjectToProcessSpecificationTranslator;
+import minerful.io.encdec.json.JsonSpecificationPojoEncoderDecoder;
 import minerful.io.encdec.pojo.ProcessSpecificationPojo;
 import minerful.logparser.LogParser;
 
@@ -19,8 +21,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 /**
- * This class marshals and unmarshals process specifications to/from XML files.
- * It also reads and saves process specifications in JSON format to/from JSON-formatted text files and strings. 
+ * This class marshals and unmarshals process specifications to/from JSON-formatted text files and strings. 
  * @author Claudio Di Ciccio
  *
  */
@@ -92,7 +93,7 @@ public class ProcessSpecificationEncoderDecoder {
 // 	}
 
 	public ProcessSpecification readFromJsonFile(File processModelJsonFile) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
-		JsonPojoEncoderDecoder jsonPojoMgr = new JsonPojoEncoderDecoder();
+		JsonSpecificationPojoEncoderDecoder jsonPojoMgr = new JsonSpecificationPojoEncoderDecoder();
 		ProcessSpecificationPojo pojo = jsonPojoMgr.fromJsonToProcessSpecificationPojo(processModelJsonFile);
 		ProcessSpecificationTransferObject proSpecTO = new ProcessSpecificationTransferObject(pojo);
 		TransferObjectToProcessSpecificationTranslator translator = new TransferObjectToProcessSpecificationTranslator();
@@ -110,7 +111,7 @@ public class ProcessSpecificationEncoderDecoder {
 	 * @throws FileNotFoundException
 	 */
 	public ProcessSpecification readFromJsonFile(File processModelJsonFile, TaskCharArchive alphabet) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
-		JsonPojoEncoderDecoder jsonPojoMgr = new JsonPojoEncoderDecoder();
+		JsonSpecificationPojoEncoderDecoder jsonPojoMgr = new JsonSpecificationPojoEncoderDecoder();
 		ProcessSpecificationPojo pojo = jsonPojoMgr.fromJsonToProcessSpecificationPojo(processModelJsonFile);
 		ProcessSpecificationTransferObject proSpecTO = new ProcessSpecificationTransferObject(pojo);
 		TransferObjectToProcessSpecificationTranslator translator = new TransferObjectToProcessSpecificationTranslator();
@@ -120,14 +121,14 @@ public class ProcessSpecificationEncoderDecoder {
 	public void writeToJsonFile(ProcessSpecification processModel, File processModelJsonFile) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
 		ProcessSpecificationTransferObject proSpecTO = new ProcessSpecificationTransferObject(processModel);
 		ProcessSpecificationPojo pojo = proSpecTO.toPojo();
-		JsonPojoEncoderDecoder jsonPojoMgr = new JsonPojoEncoderDecoder();
+		JsonSpecificationPojoEncoderDecoder jsonPojoMgr = new JsonSpecificationPojoEncoderDecoder();
 		jsonPojoMgr.saveProcessSpecificationPojo(pojo, processModelJsonFile);
 
 		return;
 	}
 
 	public ProcessSpecification readFromJsonString(String processModelJson) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
-		JsonPojoEncoderDecoder jsonPojoMgr = new JsonPojoEncoderDecoder();
+		JsonSpecificationPojoEncoderDecoder jsonPojoMgr = new JsonSpecificationPojoEncoderDecoder();
 		ProcessSpecificationPojo pojo = jsonPojoMgr.fromJsonToProcessSpecificationPojo(processModelJson);
 		ProcessSpecificationTransferObject proSpecTO = new ProcessSpecificationTransferObject(pojo);
 		TransferObjectToProcessSpecificationTranslator translator = new TransferObjectToProcessSpecificationTranslator();
@@ -137,7 +138,7 @@ public class ProcessSpecificationEncoderDecoder {
 	public String toJsonString(ProcessSpecification processModel) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
 		ProcessSpecificationTransferObject proSpecTO = new ProcessSpecificationTransferObject(processModel);
 		ProcessSpecificationPojo pojo = proSpecTO.toPojo();
-		JsonPojoEncoderDecoder jsonPojoMgr = new JsonPojoEncoderDecoder();
+		JsonSpecificationPojoEncoderDecoder jsonPojoMgr = new JsonSpecificationPojoEncoderDecoder();
 		return jsonPojoMgr.fromProcessSpecificationPojoToJson(pojo);
 	}
 }

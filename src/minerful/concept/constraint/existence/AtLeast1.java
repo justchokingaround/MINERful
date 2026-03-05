@@ -25,7 +25,6 @@ public class AtLeast1 extends ExistenceConstraint {
 	public String getViolatingLTLpfExpressionTemplate() {
 		return "G(!%1$s)";// G(!a)
 	}
-
  
     protected AtLeast1() {
     	super();
@@ -64,6 +63,5 @@ public class AtLeast1 extends ExistenceConstraint {
 	public Constraint getSymbolic() {
 		return new AtLeast1(TaskChar.SYMBOLIC_TASKCHARS[0]);
 	}
-	
 	
 }

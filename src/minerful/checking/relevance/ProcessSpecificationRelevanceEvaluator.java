@@ -1,4 +1,4 @@
-package minerful.checking;
+package minerful.checking.relevance;
 
 import minerful.checking.relevance.dao.SpecificationFitnessEvaluation;
 import minerful.concept.ProcessSpecification;
@@ -8,7 +8,7 @@ import minerful.logparser.LogParser;
 import minerful.logparser.LogTraceParser;
 import minerful.logparser.XesLogParser;
 
-public class ProcessSpecificationFitnessEvaluator extends ConstraintsFitnessEvaluator {
+public class ProcessSpecificationRelevanceEvaluator extends ConstraintsRelevanceEvaluator {
 	private ProcessSpecification processSpecification;
 
 	/**
@@ -16,7 +16,7 @@ public class ProcessSpecificationFitnessEvaluator extends ConstraintsFitnessEval
 	 * @param taskCharEncoderDecoder Encoder of tasks stemming from the event log
 	 * @param specification Specification to be evaluated
 	 */
-	public ProcessSpecificationFitnessEvaluator(TaskCharEncoderDecoder taskCharEncoderDecoder, ProcessSpecification specification) {
+	public ProcessSpecificationRelevanceEvaluator(TaskCharEncoderDecoder taskCharEncoderDecoder, ProcessSpecification specification) {
 		super(taskCharEncoderDecoder, specification.getAllUnmarkedConstraints().toArray(new Constraint[0]));
 		this.processSpecification = specification;
 	}

@@ -48,9 +48,9 @@ public class XesTraceParser extends AbstractTraceParser implements LogTraceParse
 	public boolean isParsingOver() {
 		return (this.isParsing() &&
 // For some unforeseeable reason, if this.traceIterator.previousIndex() == 0, this.traceIterator.hasPrevious() returns false, even though it is by all means WRONG. Is it a bug in Java 7.0?
-				(this.senseOfReading.equals(SenseOfReading.BACKWARDS) && this.traceIterator.previousIndex() < 0)
+				(this.readingSense.equals(ReadingSense.BACKWARDS) && this.traceIterator.previousIndex() < 0)
 				||
-				(this.senseOfReading.equals(SenseOfReading.ONWARDS) && !this.traceIterator.hasNext()));
+				(this.readingSense.equals(ReadingSense.ONWARDS) && !this.traceIterator.hasNext()));
 	}
 	
 	@Override
@@ -101,7 +101,7 @@ public class XesTraceParser extends AbstractTraceParser implements LogTraceParse
 	@Override
 	public boolean stepToSubsequent() {
 		if (!isParsingOver()) {
-			switch(this.senseOfReading) {
+			switch(this.readingSense) {
 			case ONWARDS:
 				this.xesEventParser = new XesEventParser(this, this.traceIterator.next());
 				break;
