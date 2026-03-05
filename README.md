@@ -1,14 +1,12 @@
 MINERful
 =========================
 
-MINERful is a fast process mining tool for discovering declarative process specifications out of event logs. Event logs can be either real or synthetic, stored as [XES](http://www.xes-standard.org/), legacy MXML, or text files (a collection of strings, in which every character is considered as an event, and every line as a trace). Among other things, MINERful can also create synthetic logs, simplify existing Declare specifications, and import/export specifications written in [JSON](http://www.json.org/). Simply play around with it!
+MINERful is a fast mining tool for the automated discovery of declarative process specifications from event logs. Event logs can be either real or synthetic, stored as [XES](http://www.xes-standard.org/), legacy MXML, or text files (a collection of strings, in which every character is considered as an event, and every line as a trace). Among other things, MINERful can also create synthetic logs, simplify existing specifications, and import/export specifications written in [JSON](http://www.json.org/). The language we take as a reference for the definition of constraints is Linear Temporal Logic over Finite Traces, and more specifically we consider the Declare repertoire of templates for constraints (see the _Publication and further material_ section below).
+
+As a quick-start guide to MINERful, please find a [tutorial](MINERful_tutorial_SepsisEventLog.pdf) in which we process a real-life event log from the healthcare domain (available at [data.4tu.nl](https://doi.org/10.4121/uuid:915d2bfb-7e84-49ad-a286-dc35f063a460)), and another [tutorial](MINERful_tutorial_syntheticlog.pdf) with a sytnhetic event log.
+A video demonstration of MINERful can be watched at [youtu.be/a6jEWdgS_yY](https://youtu.be/a6jEWdgS_yY).
 
 For updated info on the installation, usage, etc., please refer to the [**Wiki**](https://github.com/cdc08x/MINERful/wiki)!
-
-For a tutorial on how to run the main functionalities of MINERful on a real event log, please refer to the [tutorial](MINERful_tutorial_SepsisEventLog.pdf) with a [real-life event log](https://doi.org/10.4121/uuid:915d2bfb-7e84-49ad-a286-dc35f063a460).
-For a tutorial on how to run the main functionalities of MINERful on a synthetic event log, please refer to the [tutorial](MINERful_tutorial_syntheticlog.pdf) with a sytnhetic event log.
-
-A video demonstration of MINERful can be watched at [youtu.be/a6jEWdgS_yY](https://youtu.be/a6jEWdgS_yY).
 
 Publications and further material
 ------------
