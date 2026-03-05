@@ -33,4 +33,4 @@ clear
 MAINCLASS="minerful.MinerFulDiagnosisStarter"
 
 ## Run!
-echo java -Xmx$MEMORY_MAX -classpath $LIBS $MAINCLASS $* # -d $DEBUGLEVEL -t $THRESHOLD
+java -Xmx$MEMORY_MAX -classpath $LIBS $MAINCLASS $* # -d $DEBUGLEVEL -t $THRESHOLD
