@@ -1,0 +1,34 @@
+{
+  "name": "Loan application - STRUCTURED (strict ordering enforced)",
+  "tasks": [
+    "Submit application",
+    "Verify identity",
+    "Check credit score",
+    "Request additional documents",
+    "Assess risk",
+    "Approve loan",
+    "Reject loan",
+    "Disburse funds"
+  ],
+  "constraints": [
+    {"template": "Init",              "parameters": [["Submit application"]],                          "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "AtMost1",           "parameters": [["Submit application"]],                          "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "AtMost1",           "parameters": [["Verify identity"]],                             "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "AtMost1",           "parameters": [["Check credit score"]],                          "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "AtMost1",           "parameters": [["Assess risk"]],                                 "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "AtMost1",           "parameters": [["Approve loan"]],                                "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "AtMost1",           "parameters": [["Reject loan"]],                                 "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "AtMost1",           "parameters": [["Disburse funds"]],                              "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "ChainResponse",     "parameters": [["Submit application"], ["Verify identity"]],     "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "ChainResponse",     "parameters": [["Verify identity"], ["Check credit score"]],     "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "ChainResponse",     "parameters": [["Check credit score"], ["Assess risk"]],         "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "ChainPrecedence",   "parameters": [["Verify identity"], ["Check credit score"]],     "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "ChainPrecedence",   "parameters": [["Check credit score"], ["Assess risk"]],         "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "Precedence",        "parameters": [["Assess risk"], ["Approve loan"]],               "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "Precedence",        "parameters": [["Assess risk"], ["Reject loan"]],                "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "Precedence",        "parameters": [["Approve loan"], ["Disburse funds"]],            "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "ExclusiveChoice",   "parameters": [["Approve loan"], ["Reject loan"]],               "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "NotCoExistence",    "parameters": [["Approve loan"], ["Reject loan"]],               "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "NotPrecedence",     "parameters": [["Disburse funds"], ["Submit application"]],      "support": 1.0, "confidence": 1.0, "coverage": 1.0}
+  ]
+}

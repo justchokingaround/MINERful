@@ -1,0 +1,17 @@
+{
+  "name": "Loan application - violating constraints (constraints to BREAK in deviant traces)",
+  "tasks": [
+    "Submit application",
+    "Verify identity",
+    "Check credit score",
+    "Request additional documents",
+    "Assess risk",
+    "Approve loan",
+    "Reject loan",
+    "Disburse funds"
+  ],
+  "constraints": [
+    {"template": "Precedence",        "parameters": [["Approve loan"], ["Disburse funds"]],            "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "NotCoExistence",    "parameters": [["Approve loan"], ["Reject loan"]],               "support": 1.0, "confidence": 1.0, "coverage": 1.0}
+  ]
+}

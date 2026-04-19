@@ -1,0 +1,17 @@
+{
+  "name": "Loan application - UNSTRUCTURED (no ordering, just activity alphabet)",
+  "tasks": [
+    "Submit application",
+    "Verify identity",
+    "Check credit score",
+    "Request additional documents",
+    "Assess risk",
+    "Approve loan",
+    "Reject loan",
+    "Disburse funds"
+  ],
+  "constraints": [
+    {"template": "AtMost1",           "parameters": [["Approve loan"]],                                "support": 1.0, "confidence": 1.0, "coverage": 1.0},
+    {"template": "AtMost1",           "parameters": [["Reject loan"]],                                 "support": 1.0, "confidence": 1.0, "coverage": 1.0}
+  ]
+}
