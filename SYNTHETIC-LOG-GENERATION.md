@@ -214,6 +214,75 @@ Note: `-oLV` ≤ `-oLL` (can't have more violating traces than total traces).
 
 ---
 
+## ConDec-BPMN-Modeler converter
+
+`condec_to_minerful.py` converts diagrams exported from [ConDec-BPMN-Modeler](https://github.com/piliotov/ConDec-BPMN-Modeler) into MINERful spec JSON.
+
+### Usage
+
+```bash
+# print to stdout
+python3 condec_to_minerful.py diagram.json
+
+# write to file
+python3 condec_to_minerful.py diagram.json output.json --name "My Process"
+
+# full pipeline
+python3 condec_to_minerful.py diagram.json output.json
+/usr/lib/jvm/java-21-openjdk/bin/java -Xmx4G \
+  -cp "MINERful.jar:bin:$(ls lib/*.jar | tr '\n' ':')" \
+  minerful.MinerFulLogMakerStarter \
+  -iSF output.json -oLF output.xes -oLL 100 -oLm 3 -oLM 15
+```
+
+### What converts cleanly
+
+**Binary relation types (all 19):**
+
+| ConDec type | MINERful template |
+|---|---|
+| `resp_existence` | `RespondedExistence` |
+| `coexistence` | `CoExistence` |
+| `response` | `Response` |
+| `precedence` | `Precedence` |
+| `succession` | `Succession` |
+| `alt_response` | `AlternateResponse` |
+| `alt_precedence` | `AlternatePrecedence` |
+| `alt_succession` | `AlternateSuccession` |
+| `chain_response` | `ChainResponse` |
+| `chain_precedence` | `ChainPrecedence` |
+| `chain_succession` | `ChainSuccession` |
+| `resp_absence` | `NotRespondedExistence` |
+| `not_coexistence` | `NotCoExistence` |
+| `neg_response` | `NotResponse` |
+| `neg_precedence` | `NotPrecedence` |
+| `neg_succession` | `NotSuccession` |
+| `neg_chain_response` | `NotChainResponse` |
+| `neg_chain_precedence` | `NotChainPrecedence` |
+| `neg_chain_succession` | `NotChainSuccession` |
+
+**Node-level (unary) constraints:**
+
+| ConDec constraint | `constraintValue` | MINERful template |
+|---|---|---|
+| `init` | — | `Init` |
+| `absence` | — | `Absence` |
+| `absence_n` | 1 / 2 / 3 | `AtMost1` / `AtMost2` / `AtMost3` |
+| `existence_n` | 1 / 2 / 3 | `AtLeast1` / `AtLeast2` / `AtLeast3` |
+| `exactly_n` | 1 / 2 / 3 | `Exactly1` / `Exactly2` / `Exactly3` |
+
+### Known gaps
+
+| Case | Behaviour |
+|---|---|
+| `neg_alt_response`, `neg_alt_precedence`, `neg_alt_succession` | No MINERful equivalent — **skipped with warning** |
+| N-ary relations (`activities: [...]` with >2 nodes) | MINERful is strictly binary — **skipped with warning** |
+| `absence_n` / `existence_n` / `exactly_n` with N > 3 | MINERful only has up to 3 — **skipped with warning** |
+
+Warnings go to stderr; stdout remains clean JSON.
+
+---
+
 ## Output format
 
 XES (default) is the standard for process mining tools (ProM, PM4Py, Disco, Celonis). Each trace gets a `concept:name` label and each event gets activity name + lifecycle + timestamp.
